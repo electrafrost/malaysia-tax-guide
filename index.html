@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malaysia Tax Filing Guide — NS April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f1ec;
+    --surface: #eae7e1;
+    --border: #d2cfc8;
+    --text: #152238;
+    --text-dim: #556270;
+    --accent: #4a7d94;
+    --accent-soft: rgba(74,125,148,0.1);
+    --highlight: #1a2a3d;
+    --code-bg: #e4e1db;
+    --green: #3d8b5e;
+    --red: #b85450;
+    --blue: #4a7d94;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden; height: 100vh; width: 100vw;
+  }
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5vh 8vw;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none; visibility: hidden;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; visibility: visible; }
+  .slide.exit { opacity: 0; transform: translateY(-12px); visibility: visible; }
+  h1 {
+    font-family: 'Instrument Serif', serif; font-weight: 400;
+    font-size: clamp(2.4rem, 4.5vw, 4.2rem); line-height: 1.15;
+    letter-spacing: -0.01em; margin-bottom: 1.5rem; color: var(--text);
+  }
+  h1 em, h2 em { font-style: italic; color: var(--accent); }
+  h2 {
+    font-family: 'Instrument Serif', serif; font-weight: 400;
+    font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.25; margin-bottom: 1.2rem; color: var(--text);
+  }
+  p, li { font-size: clamp(0.95rem, 1.5vw, 1.3rem); line-height: 1.7; color: var(--text-dim); max-width: 54ch; }
+  p + p { margin-top: 0.8rem; }
+  .lead { font-size: clamp(1.1rem, 1.7vw, 1.4rem); color: var(--text); line-height: 1.6; max-width: 50ch; }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--accent); }
+  .stat-code {
+    font-family: 'DM Mono', monospace; font-size: clamp(0.8rem, 1.1vw, 1rem);
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 1.1rem 1.5rem; margin: 1.2rem 0; color: var(--highlight); line-height: 1.8; max-width: 62ch;
+  }
+  .stat-code .dim { color: var(--text-dim); }
+  .stat-code .hl { color: var(--accent); font-weight: 500; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; margin-top: 1rem; }
+  .col-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.6rem 1.8rem; }
+  .col-card h3 { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+  .col-card.filed h3 { color: var(--green); }
+  .col-card.unfiled h3 { color: var(--red); }
+  .col-card.neutral h3 { color: var(--accent); }
+  .col-card.blue h3 { color: var(--blue); }
+  .col-card p { font-size: clamp(0.9rem, 1.2vw, 1.1rem); line-height: 1.6; }
+  .comp-table { width: 100%; max-width: 940px; border-collapse: collapse; margin-top: 1.2rem; font-size: clamp(0.8rem, 1.1vw, 1rem); }
+  .comp-table th { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); text-align: left; padding: 0.7rem 1rem; border-bottom: 2px solid var(--border); }
+  .comp-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-dim); line-height: 1.45; vertical-align: top; }
+  .comp-table td:first-child { color: var(--text); font-weight: 500; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 3px; }
+  .tag.yes { background: rgba(61,139,94,0.12); color: var(--green); }
+  .tag.no { background: rgba(184,84,80,0.1); color: var(--red); }
+  .tag.maybe { background: var(--accent-soft); color: var(--accent); }
+  .tag.blue { background: rgba(74,125,148,0.12); color: var(--blue); }
+  .key-points { list-style: none; margin-top: 0.8rem; }
+  .key-points li { padding: 0.6rem 0; padding-left: 1.4rem; position: relative; font-size: clamp(0.95rem, 1.4vw, 1.2rem); color: var(--text); line-height: 1.5; max-width: 58ch; }
+  .key-points li::before { content: ''; position: absolute; left: 0; top: 1rem; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .key-points li + li { border-top: 1px solid var(--border); }
+  .slide.title-slide { justify-content: flex-end; padding-bottom: 10vh; }
+  .title-slide .subtitle { font-family: 'DM Mono', monospace; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-top: 1.5rem; }
+  .title-slide .line { width: 4rem; height: 2px; background: var(--accent); margin-bottom: 2rem; }
+  .slide.end-slide { justify-content: center; align-items: center; text-align: center; }
+  .end-slide p { max-width: 44ch; margin: 0 auto; }
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 3vw; z-index: 100; background: linear-gradient(transparent, rgba(244,241,236,0.95)); }
+  .progress-track { width: 120px; height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 1px; transition: width 0.4s ease; }
+  .slide-count { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.08em; }
+  .nav-hint { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.06em; opacity: 0.5; }
+  .emphasis { border-left: 2px solid var(--accent); padding-left: 1.5rem; margin: 1.2rem 0; }
+  .emphasis p { color: var(--text); font-size: clamp(1rem, 1.4vw, 1.2rem); }
+  .emphasis.warn { border-left-color: var(--red); }
+  .emphasis.warn p { color: var(--red); }
+  .yr-row { display: flex; gap: 1.5rem; margin-top: 1.2rem; flex-wrap: wrap; }
+  .yr-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.4rem; flex: 1; min-width: 170px; }
+  .yr-card .yr { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.5rem; }
+  .yr-card p { font-size: clamp(0.85rem, 1.1vw, 1rem); line-height: 1.5; }
+  .fruit-layout { display: flex; gap: 3rem; align-items: center; margin-top: 1rem; }
+  .fruit-text { flex: 1; }
+  .fruit-svg { flex-shrink: 0; }
+  a { color: var(--accent); }
+  a:hover { color: var(--text); }
+  @media (max-width: 900px) {
+    .slide { padding: 4vh 6vw; }
+    .two-col { grid-template-columns: 1fr; gap: 1.2rem; }
+    .yr-row { flex-direction: column; }
+    .comp-table { font-size: 0.75rem; }
+    .comp-table td:first-child { white-space: normal; }
+    .fruit-layout { flex-direction: column; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1: Title -->
+  <div class="slide title-slide active" data-slide="0" style="flex-direction:row; align-items:flex-end; justify-content:space-between; padding-bottom:8vh;">
+    <div style="flex:1;">
+      <div class="line"></div>
+      <h1>Filing Tax in <em>Malaysia</em></h1>
+      <p class="lead">A short guide for digital nomads, remote workers, freelancers, and founders with foreign companies. YA 2024, 2025, and 2026.</p>
+      <div class="subtitle" style="margin-top:1.5rem;">Ref: Malaysian Income Tax Act 1967 and relevant Public Rulings</div>
+      <div style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--text-dim); margin-top:0.8rem; letter-spacing:0.05em;">Electra Frost at Network School &bull; 4/4/2026</div>
+    </div>
+    <div style="flex-shrink:0; margin-left:4vw;">
+      <img src="images/slide-01.jpg" style="width:clamp(180px,22vw,320px); border-radius:12px; opacity:0.95;" alt="NS Accounting Malaysia" />
+    </div>
+  </div>
+
+  <!-- 2: Disclaimer -->
+  <div class="slide" data-slide="1">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-02.png" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Before We Begin</div>
+    <h2>General advice <em>disclaimer</em></h2>
+    <p class="lead">This presentation provides general information about individual tax filing under the Malaysian Income Tax Act 1967. It is not tax advice or a substitute for professional consultation specific to your circumstances.</p>
+    <p>Your obligations depend on your individual facts: how many days you spend in Malaysia, where you physically perform your work, and how your income is structured. The legislation and LHDN administrative practice referred to here may change.</p>
+    <p>Confirm your position with a qualified tax adviser before filing or deciding not to file.</p>
+  </div>
+
+  <!-- 3: Who is this for -->
+  <div class="slide" data-slide="2">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-03.png" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Context</div>
+    <h2>Who is this <em>for?</em></h2>
+    <p class="lead">You are a foreigner living in or spending time in Malaysia. Your income comes from outside Malaysia.</p>
+    <ul class="key-points">
+      <li>You work remotely for a foreign employer or your own foreign company</li>
+      <li>Your income is salary, directors' fees, or dividends drawn from that foreign entity</li>
+      <li>You derive fees from overseas as a freelancer or independent contractor</li>
+      <li>You have no Malaysian employer, no Malaysian clients, and no Malaysian business</li>
+      <li>You may hold a DE Rantau visa, tourist visa, or other entry permit</li>
+    </ul>
+  </div>
+
+  <!-- 4: Residency -->
+  <div class="slide" data-slide="3">
+    <div class="section-label">Residency</div>
+    <h2>Resident or <em>non-resident?</em></h2>
+    <p class="lead">Your tax residency is determined by physical presence, not citizenship or visa type.</p>
+    <div class="yr-row">
+      <div class="yr-card">
+        <div class="yr">The main test</div>
+        <p>Present in Malaysia for <strong style="color:var(--accent);">182 days or more</strong> in a calendar year = resident for that year of assessment.</p>
+      </div>
+      <div class="yr-card">
+        <div class="yr">Other tests</div>
+        <p>Linked consecutive-day periods (s.7(1)(b)), the 90-day test across multiple years (s.7(1)(c)), and deemed residency (s.7(1)(d)) can also apply.</p>
+      </div>
+      <div class="yr-card">
+        <div class="yr">Below 182 days</div>
+        <p>If you don't pass any test, you are <strong style="color:var(--accent);">non-resident</strong> for that year. This is common for YA 2024 arrivals.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5: What you're taxed on -->
+  <div class="slide" data-slide="4">
+    <div class="section-label">Scope of Tax</div>
+    <h2>What are you <em>taxed on?</em></h2>
+    <div class="two-col">
+      <div class="col-card neutral">
+        <h3>Resident</h3>
+        <p>Malaysian-sourced income, plus foreign-sourced income received in Malaysia (from 2022, subject to exemptions through 2036 if taxed at source).</p>
+        <p style="margin-top:0.6rem;"><strong style="color:var(--accent);">Progressive rates: 0% to 30%</strong><br><span style="font-size:0.9rem;">Eligible for reliefs, rebates, and DTA relief with 80+ treaty countries.</span></p>
+      </div>
+      <div class="col-card neutral">
+        <h3>Non-Resident</h3>
+        <p>Malaysian-sourced income only. Foreign-sourced income is not taxable regardless of where you receive it.</p>
+        <p style="margin-top:0.6rem;"><strong style="color:var(--accent);">Flat rate: 30%</strong> on employment and business income.<br><span style="font-size:0.9rem;">No reliefs, no rebates, and no DTA relief available.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6: Source rules -->
+  <div class="slide" data-slide="5">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-06.jpg" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Source Rules</div>
+    <h2>Where is your income <em>sourced?</em></h2>
+    <p class="lead">Malaysia taxes income where the work is physically performed. Not where you are paid. Not where your company is registered.</p>
+    <ul class="key-points">
+      <li><strong style="color:var(--text);">Employment income:</strong> taxable if you do the work while physically in Malaysia</li>
+      <li><strong style="color:var(--text);">Self-employment, consulting, freelancing:</strong> taxable if your services are performed while in Malaysia</li>
+      <li><strong style="color:var(--text);">Dividends, interest, passive returns:</strong> foreign-sourced if arising abroad. Exempt for residents through end of 2026 (if taxed at source)</li>
+      <li><strong style="color:var(--text);">Capital gains:</strong> not taxed in Malaysia except on Malaysian real property</li>
+    </ul>
+    <div class="emphasis warn" style="margin-top:1rem;">
+      <p>"I'm paid into a foreign account, so it's not taxable." Wrong. Source depends on where you did the work.</p>
+    </div>
+  </div>
+
+  <!-- 7: 60-day exemption -->
+  <div class="slide" data-slide="6">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-07.jpg" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Special Rules — Non-Residents</div>
+    <h2>The <em>60-day</em> exemption</h2>
+    <p class="lead">For non-residents: employment income is exempt if you are in Malaysia for 60 days or fewer in the calendar year (PR 8/2011).</p>
+    <p>Lose it once you cross 60 days, even across multiple visits.</p>
+    <div class="emphasis" style="margin-top:1rem;">
+      <p>Freelancers, contractors, and directors' fees are excluded from this exemption. It applies to employment income only.</p>
+    </div>
+    <p style="margin-top:1rem;">For most digital nomads and founders spending meaningful time in Malaysia, the 60-day exemption will not apply. The question then becomes whether a DTA can help.</p>
+  </div>
+
+  <!-- 8: DTA Article 15 -->
+  <div class="slide" data-slide="7">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-08.webp" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Special Rules — Non-Residents</div>
+    <h2>DTA relief: <em>Article 15</em></h2>
+    <p class="lead">If you are non-resident and tax resident in your home country, a DTA may override Malaysia's right to tax your employment income.</p>
+    <div class="two-col">
+      <div class="col-card neutral">
+        <h3>Step 1 — Domestic Law</h3>
+        <p>Work performed in Malaysia is Malaysian-sourced under s.12 and s.13. Under domestic law, it is taxable at 30% flat.</p>
+      </div>
+      <div class="col-card blue">
+        <h3>Step 2 — DTA Override (s.132)</h3>
+        <p>Article 15 can reallocate the taxing right to your home country if all three tests are met. This is not automatic. You must claim it in your return with a Certificate of Tax Residence from your home country.</p>
+      </div>
+    </div>
+    <div class="stat-code" style="margin-top:1rem;">
+      <span class="hl">1.</span> Present ≤ 183 days in a 12-month period<br>
+      <span class="hl">2.</span> Paid by or on behalf of a foreign employer<br>
+      <span class="hl">3.</span> Salary not borne by a Malaysian entity (PE)<br><br>
+      <span style="color:var(--red);">Fail any test → Malaysia taxes at 30%. Freelancers and contractors: Article 15 does not apply.</span>
+    </div>
+    <p style="margin-top:0.8rem; font-size:0.85rem;">This is a non-resident mechanism. Residents cannot use Article 15 to avoid Malaysian tax on work done in Malaysia. Residents use bilateral tax credits (Schedule 7) and FSI exemptions instead.</p>
+  </div>
+
+  <!-- 9: FSI + Bilateral -->
+  <div class="slide" data-slide="8">
+    <div class="section-label">Special Rules — Residents</div>
+    <h2>FSI exemption and <em>bilateral tax relief</em></h2>
+    <div class="two-col">
+      <div class="col-card blue">
+        <h3>Foreign-Source Income Exemption</h3>
+        <p>Residents are temporarily exempt from tax on foreign-sourced income received in Malaysia (dividends, interest, royalties, rental, investment returns already taxed abroad). Runs through end of 2026, extended to 2036.</p>
+        <p style="margin-top:0.6rem; color:var(--red); font-size:0.95rem;">Does not cover income from services performed in Malaysia. That is Malaysian-sourced regardless of where paid.</p>
+      </div>
+      <div class="col-card blue">
+        <h3>Bilateral Tax Relief (Schedule 7)</h3>
+        <p>If Malaysia taxes income already taxed overseas, you can claim a credit for foreign tax paid (up to the Malaysian equivalent). Must be a Malaysian tax resident.</p>
+        <p style="margin-top:0.6rem; font-size:0.95rem;">Claim within 2 years of the relevant assessment year. If your foreign return is filed later, you can amend your Malaysian return to claim the credit with evidence of tax paid.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10: Non-Resident Scenarios -->
+  <div class="slide" data-slide="9">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-10.jpg" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Non-Resident Scenarios</div>
+    <h2>What's taxable if you're a <em>non-resident?</em></h2>
+    <table class="comp-table">
+      <thead><tr><th>Income Type</th><th>Domestic Law</th><th>Relief</th></tr></thead>
+      <tbody>
+        <tr><td>Salary — work done in MY, ≤ 60 days</td><td><span class="tag no">Exempt</span></td><td>60-day exemption (employment only, not freelancers or directors' fees)</td></tr>
+        <tr><td>Salary — work done in MY, > 60 days</td><td><span class="tag yes">Taxable 30%</span></td><td>DTA Art 15 can exempt — must be claimed. All 3 tests must be met</td></tr>
+        <tr><td>Salary — work done outside MY (incidental only while in MY)</td><td><span class="tag no">Not sourced here</span></td><td>Not required — income is foreign-sourced</td></tr>
+        <tr><td>Freelance / contractor fees — work done in MY</td><td><span class="tag yes">Taxable 30%</span></td><td>No Art 15 protection. No 60-day exemption. Business income under s.4(a)</td></tr>
+        <tr><td>Dividends, interest from abroad</td><td><span class="tag no">Exempt</span></td><td>Para 28 Schedule 6 — no conditions for non-residents</td></tr>
+        <tr><td>Capital gains (crypto, shares, foreign property)</td><td><span class="tag no">Not taxed</span></td><td>N/A (except Malaysian real property)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.8rem; font-size:0.85rem;">DTA provisions operate through s.132 ITA and are available to non-residents — not just residents. They override domestic law but must be claimed with documentation.</p>
+  </div>
+
+  <!-- 11: Resident Scenarios -->
+  <div class="slide" data-slide="10">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-11.jpg" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Resident Scenarios</div>
+    <h2>What's taxable if you're a <em>resident?</em></h2>
+    <table class="comp-table">
+      <thead><tr><th>Income Type</th><th>Domestic Law</th><th>Relief</th></tr></thead>
+      <tbody>
+        <tr><td>Salary — work done in MY</td><td><span class="tag yes">Taxable 0–30%</span></td><td>Bilateral credit (Schedule 7) if also taxed abroad. Claim within 2 years</td></tr>
+        <tr><td>Salary — work done outside MY</td><td><span class="tag maybe">Taxable if received in MY</span></td><td>FSI exemption through 2036 if taxed at source. Must declare in return</td></tr>
+        <tr><td>Freelance / contractor fees — work done in MY</td><td><span class="tag yes">Taxable 0–30%</span></td><td>Bilateral credit if also taxed abroad</td></tr>
+        <tr><td>Dividends, interest from abroad</td><td><span class="tag maybe">Taxable if received in MY</span></td><td>FSI exemption through 2036 if taxed at source (conditions apply for individuals)</td></tr>
+        <tr><td>Capital gains (crypto, shares, foreign property)</td><td><span class="tag no">Not taxed</span></td><td>N/A (except Malaysian real property)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.8rem; font-size:0.85rem;">Residents enjoy progressive rates and reliefs but bring foreign income into scope. DTA relief (s.132) and bilateral credits (Schedule 7) prevent double taxation. Keep foreign tax evidence — you will need it.</p>
+  </div>
+
+  <!-- 12: The Nil Filing Question -->
+  <div class="slide" data-slide="11">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-12.jpg" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">The Nil Filing Question</div>
+    <h2>No Malaysian-source income. <em>Do you file?</em></h2>
+    <p class="lead">Section 77(1) of the ITA requires "every person chargeable to tax" to furnish a return.</p>
+    <p>No chargeable income means no strict filing obligation.</p>
+    <div class="stat-code">
+      <span class="dim">LHDN Non-Resident Guidance:</span><br>
+      <span class="hl">"If taxable, you are required to fill in M Form."</span><br><br>
+      <span class="dim">Non-resident form:</span> <span class="hl">Form M</span><br>
+      <span class="dim">Resident form:</span> <span class="hl">Form BE</span> <span class="dim">(no business) or</span> <span class="hl">Form B</span> <span class="dim">(business)</span>
+    </div>
+  </div>
+
+  <!-- 13: Why file anyway -->
+  <div class="slide" data-slide="12">
+    <div class="section-label">A Risk-Management Strategy</div>
+    <h2>Why you may consider <em>filing anyway</em></h2>
+    <p class="lead">The case for voluntary filing rests on limitation periods and evidentiary positioning.</p>
+    <div class="stat-code">
+      <span class="hl">s.90(1)</span> <span class="dim">→</span> File a return <span class="dim">→</span> deemed assessment on date of filing<br><br>
+      <span class="hl">s.91(1)</span> <span class="dim">→</span> LHDN has <span class="hl">5 years</span> from end of YA to raise additional assessments<br><br>
+      <span class="hl">s.90(3)</span> <span class="dim">→</span> No return filed <span class="dim">→</span> DG may assess by best judgment<br>
+      <span style="margin-left:5.5rem; color: var(--red);">No time limit on this power</span>
+    </div>
+  </div>
+
+  <!-- 14: Filed vs Unfiled -->
+  <div class="slide" data-slide="13">
+    <div class="section-label">Filed vs Unfiled</div>
+    <h2>What changes when you <em>file?</em></h2>
+    <div class="two-col">
+      <div class="col-card filed">
+        <h3>Nil return filed</h3>
+        <p>Deemed assessment created. Five-year limitation clock starts. Your position is documented at the time you formed it. Defensible if queried later.</p>
+      </div>
+      <div class="col-card unfiled">
+        <h3>No return filed</h3>
+        <p>No deemed assessment. No clock running. The Director General can assess you by best judgment at any time. Your position has to be argued after the fact.</p>
+      </div>
+    </div>
+    <ul class="key-points" style="margin-top:1.2rem;">
+      <li>Have you checked the Hasil Tax Portal to see if there are returns LHDN expects you to lodge?</li>
+      <li>Does a nil return assert your position, or does not filing leave you exposed?</li>
+      <li>Can you explain and defend your position if asked?</li>
+    </ul>
+    <p style="margin-top:0.8rem; font-size:0.85rem;">Note: s.91(3) removes all time limits in cases of fraud, wilful default, or negligence regardless of filing.</p>
+  </div>
+
+  <!-- 15: The objection -->
+  <div class="slide" data-slide="14">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-15.png" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">The Objection</div>
+    <h2>"Doesn't filing put me <em>in the tax net?</em>"</h2>
+    <p class="lead">No. Filing a nil return asserts a position. It does not concede chargeability.</p>
+    <p>A return completed with zeros across all income fields says: I was present in Malaysia, I assessed my position, and I concluded I have no Malaysian-source income and no tax liability.</p>
+    <p>That is a statement of facts and legal analysis, not an admission of jurisdiction. It does not create an obligation where none existed.</p>
+  </div>
+
+  <!-- 16: Practical considerations - visa holders -->
+  <div class="slide" data-slide="15">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-16.png" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Practical Considerations</div>
+    <h2>Visa holders and <em>visibility</em></h2>
+    <p class="lead">If you hold a visa tied to income thresholds, LHDN already knows you earn money.</p>
+    <ul class="key-points">
+      <li>DE Rantau and similar visas require you to declare income to qualify. LHDN and immigration share data.</li>
+      <li>A person known to authorities as an income-earning foreign national who has never lodged a return is in a weaker position than one who has filed a nil position.</li>
+      <li>A clean filing history removes a line of enquiry before it starts, especially when renewing a visa or if your profile grows in Malaysia.</li>
+    </ul>
+  </div>
+
+  <!-- 17: Low hanging fruit -->
+  <div class="slide" data-slide="16">
+    <div class="section-label">A Personal Bet</div>
+    <h2>Don't be the <em>low-hanging fruit</em></h2>
+    <div class="fruit-layout">
+      <div class="fruit-text">
+        <p class="lead">If you're here on a nomad visa, you're expected to file.</p>
+        <p>My personal bet is that failing to file at all will make me low-hanging fruit. And if there's a lot of low-hanging fruit around me and they come to harvest, I'm making sure that I don't get picked.</p>
+        <p style="margin-top:0.8rem;">File. State your position. Start the clock. Be the green fruit up high.</p>
+      </div>
+      <div class="fruit-svg">
+        <svg width="260" height="300" viewBox="0 0 260 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="118" y="185" width="24" height="90" rx="4" fill="#8B6B4A"/>
+          <!-- roots -->
+          <path d="M118 270 Q100 285 85 278" stroke="#8B6B4A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M142 270 Q160 285 175 278" stroke="#8B6B4A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- canopy layers -->
+          <ellipse cx="130" cy="115" rx="105" ry="95" fill="#4a7d94" opacity="0.18"/>
+          <ellipse cx="130" cy="105" rx="85" ry="80" fill="#4a7d94" opacity="0.25"/>
+          <ellipse cx="130" cy="95" rx="65" ry="62" fill="#4a7d94" opacity="0.3"/>
+          <ellipse cx="130" cy="85" rx="45" ry="42" fill="#4a7d94" opacity="0.25"/>
+          <!-- low red fruit - easy to reach -->
+          <circle cx="40" cy="170" r="11" fill="#b85450"/>
+          <circle cx="65" cy="178" r="10" fill="#b85450"/>
+          <circle cx="90" cy="175" r="9" fill="#b85450"/>
+          <circle cx="220" cy="168" r="11" fill="#b85450"/>
+          <circle cx="195" cy="178" r="10" fill="#b85450"/>
+          <circle cx="170" cy="176" r="9" fill="#b85450"/>
+          <circle cx="50" cy="155" r="8" fill="#b85450"/>
+          <circle cx="210" cy="152" r="8" fill="#b85450"/>
+          <!-- high green fruit - hard to reach -->
+          <circle cx="110" cy="55" r="8" fill="#3d8b5e"/>
+          <circle cx="150" cy="50" r="8" fill="#3d8b5e"/>
+          <circle cx="130" cy="38" r="7" fill="#3d8b5e"/>
+          <circle cx="95" cy="70" r="7" fill="#3d8b5e"/>
+          <circle cx="165" cy="65" r="7" fill="#3d8b5e"/>
+          <!-- stems for low fruit -->
+          <line x1="40" y1="159" x2="48" y2="148" stroke="#556270" stroke-width="1.5"/>
+          <line x1="65" y1="168" x2="70" y2="157" stroke="#556270" stroke-width="1.5"/>
+          <line x1="220" y1="157" x2="212" y2="146" stroke="#556270" stroke-width="1.5"/>
+          <line x1="195" y1="168" x2="188" y2="156" stroke="#556270" stroke-width="1.5"/>
+          <!-- stems for high fruit -->
+          <line x1="110" y1="47" x2="115" y2="38" stroke="#556270" stroke-width="1.5"/>
+          <line x1="150" y1="42" x2="145" y2="33" stroke="#556270" stroke-width="1.5"/>
+          <line x1="130" y1="31" x2="130" y2="22" stroke="#556270" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 18: Record keeping -->
+  <div class="slide" data-slide="17">
+    <div class="section-label">Record-Keeping</div>
+    <h2><em>Seven years</em> from the end of the year of assessment</h2>
+    <p>Section 82A of the ITA. If you have not filed, records must be kept for seven years after the year in which the return is eventually furnished.</p>
+    <ul class="key-points" style="margin-top:0.8rem;">
+      <li>Passport stamps and immigration movement records</li>
+      <li>Flight itineraries and boarding passes</li>
+      <li>Employment contracts and remuneration records from your foreign entity</li>
+      <li>Evidence of tax residency in your home jurisdiction</li>
+      <li>Any covering statement filed with your return</li>
+      <li>To claim DTA relief: Certificate of Tax Residence from your home country, and where relevant a Malaysian COR via LHDN's e-Residence portal</li>
+    </ul>
+  </div>
+
+  <!-- 18: Summary -->
+  <div class="slide" data-slide="18">
+    <div class="section-label">Nil Filing Strategy</div>
+    <h2>When your Malaysian tax outcome is <em>nil</em></h2>
+    <p style="margin-bottom:1rem;">This applies where you have no Malaysian-source chargeable income, or where after claiming allowable deductions your net chargeable income in Malaysia is nil.</p>
+    <table class="comp-table">
+      <thead><tr><th></th><th>Non-Resident (Form M)</th><th>Resident (Form BE / B)</th></tr></thead>
+      <tbody>
+        <tr><td>Filing obligation on nil income</td><td><span class="tag no">No</span> on strict reading of s.77</td><td><span class="tag maybe">Arguable</span> but LHDN expects filing</td></tr>
+        <tr><td>Effect of filing a nil return</td><td>Deemed assessment at nil; starts 5-year limitation clock under s.91</td><td>Same mechanism applies</td></tr>
+        <tr><td>Effect of not filing</td><td>No clock. Open to best-judgment assessment under s.90(3), no time limit</td><td>Same risk applies</td></tr>
+        <tr><td>Recommended strategy</td><td><span class="tag yes">File voluntarily</span></td><td><span class="tag yes">File</span></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem;">The limitation clock starts when you lodge. If your chargeable income is genuinely nil, filing protects that position.</p>
+  </div>
+
+  <!-- 19: When & How to File -->
+  <div class="slide" data-slide="19">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-20.png" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">Next Steps</div>
+    <h2>When and <em>how to file</em></h2>
+    <div class="stat-code" style="margin-bottom:1rem;">
+      <span class="hl">YA 2024</span> <span class="dim">(Form M / BE)</span> — due 30 April 2025 <span style="color:var(--red);">(overdue — file now)</span><br>
+      <span class="hl">YA 2025</span> <span class="dim">(Form M / BE)</span> — due 30 April 2026 <span style="color:var(--green);">(file by 15 May for e-filing)</span><br>
+      <span class="hl">YA 2025</span> <span class="dim">(Form B)</span> — due 30 June 2026 <span style="color:var(--green);">(file by 15 July for e-filing)</span>
+    </div>
+    <ul class="key-points">
+      <li><strong style="color:var(--text);">Set up a login:</strong> Go to mytax.hasil.gov.my and register using your passport number.</li>
+      <li><strong style="color:var(--text);">Check your portal:</strong> If you applied for a DE Rantau visa you will have a tax ID number. Log in and you will see the returns LHDN expects you to lodge, and a small aeroplane icon indicating whether any movement restrictions have been placed on your file.</li>
+      <li><strong style="color:var(--text);">Use a licensed Malaysian tax agent:</strong> they carry professional indemnity insurance and act as your representative with LHDN if anything goes wrong. Worth paying for.</li>
+      <li><strong style="color:var(--text);">Late nil returns:</strong> the penalty is 10% of tax payable — on a nil return, that is zero. You are demonstrating good faith by filing voluntarily.</li>
+    </ul>
+  </div>
+
+  <!-- 20: Amendments -->
+  <div class="slide" data-slide="20">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-21.png" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">If You Get It Wrong</div>
+    <h2>You can <em>amend</em></h2>
+    <p class="lead">Section 77B of the ITA allows one self-amendment per year of assessment.</p>
+    <ul class="key-points">
+      <li>Submit an Amended Return Form (ARF) within six months of the original filing due date.</li>
+      <li>If the amendment results in additional tax, a 10% increase applies on the additional amount.</li>
+      <li>One amendment only. No ARF if LHDN has already raised an additional assessment under s.91.</li>
+      <li>Outside the six-month window, you can still make a voluntary disclosure by letter to the LHDN office handling your file, with supporting documentation.</li>
+    </ul>
+    <div class="emphasis">
+      <p>Get it right the first time if you can. But if your position changes or you discover an error, the system does allow correction.</p>
+    </div>
+  </div>
+
+  <!-- MyTax Portal 1 -->
+  <div class="slide" data-slide="21" style="justify-content:center; align-items:center; padding:2vh 3vw;">
+    <div style="text-align:center; width:100%;">
+      <img src="images/slide-22.png" style="max-width:92vw; max-height:85vh; border-radius:8px; object-fit:contain; box-shadow:0 4px 24px rgba(0,0,0,0.12);" />
+    </div>
+  </div>
+
+  <!-- MyTax Portal 2 -->
+  <div class="slide" data-slide="22" style="justify-content:center; align-items:center; padding:2vh 3vw;">
+    <div style="text-align:center; width:100%;">
+      <img src="images/slide-23.png" style="max-width:92vw; max-height:85vh; border-radius:8px; object-fit:contain; box-shadow:0 4px 24px rgba(0,0,0,0.12);" />
+    </div>
+  </div>
+
+  <!-- MyTax Portal 3 -->
+  <div class="slide" data-slide="23" style="justify-content:center; align-items:center; padding:2vh 3vw;">
+    <div style="text-align:center; width:100%;">
+      <img src="images/slide-24.png" style="max-width:92vw; max-height:85vh; border-radius:8px; object-fit:contain; box-shadow:0 4px 24px rgba(0,0,0,0.12);" />
+    </div>
+  </div>
+
+  <!-- MyTax Portal 4 -->
+  <div class="slide" data-slide="24" style="justify-content:center; align-items:center; padding:2vh 3vw;">
+    <div style="text-align:center; width:100%;">
+      <img src="images/slide-25.png" style="max-width:92vw; max-height:85vh; border-radius:8px; object-fit:contain; box-shadow:0 4px 24px rgba(0,0,0,0.12);" />
+    </div>
+  </div>
+
+  <!-- MyTax Portal 5 -->
+  <div class="slide" data-slide="25" style="justify-content:center; align-items:center; padding:2vh 3vw;">
+    <div style="text-align:center; width:100%;">
+      <img src="images/slide-26.png" style="max-width:92vw; max-height:85vh; border-radius:8px; object-fit:contain; box-shadow:0 4px 24px rgba(0,0,0,0.12);" />
+    </div>
+  </div>
+
+  <!-- 21: A Note From Me -->
+  <div class="slide" data-slide="26">
+    <div style="position:absolute; bottom:4vh; right:4vw; z-index:1; opacity:0.92;">
+      <img src="images/slide-27.jpg" style="max-width:clamp(200px,28vw,400px); max-height:clamp(180px,38vh,380px); border-radius:8px; object-fit:contain; box-shadow:0 2px 16px rgba(0,0,0,0.1);" />
+    </div>
+    <div class="section-label">A Note From Me</div>
+    <h2>What I Do</em></h2>
+    <ul class="key-points">
+      <li>I am not a licensed Malaysian tax agent. I cannot give you advice or file your return.</li>
+      <li>20+ years in Australian public practice. Sold my practices. I now operate at the institutional level and build systems.</li>
+      <li>I advise other accountants on international tax and crypto complexity for their clients. I have been automating this for 15 years because it's too hard and too expensive to manage manually.</li>
+      <li>Asking me to do your tax is like asking the health system architect to write your prescription. Instead, let me build you the clinic.</li>
+      <li style="color:var(--accent);">If you want more help with this, ask Network School to give me a space and support.</li>
+    </ul>
+  </div>
+
+  <!-- 22: End Card -->
+  <div class="slide end-slide" data-slide="27">
+    <div class="line" style="margin: 0 auto 2rem; width:4rem; height:2px; background:var(--accent);"></div>
+    <h2>Find my sessions and <em>office hours</em></h2>
+    <p style="margin-top:1rem;"><a href="https://lu.ma/electrafrost" target="_blank" style="font-family:'DM Mono',monospace; font-size:clamp(1.1rem,1.6vw,1.4rem); color:var(--accent);">lu.ma/electrafrost</a></p>
+    <p style="margin-top:2rem;">I'm contributing this pro bono because I want Network School to retain its long-termers and be a success.</p>
+    <p style="margin-top:2.5rem; font-size:0.8rem; color:var(--text-dim); max-width:50ch;">General information only. Not advice specific to individual circumstances. Confirm with the current text of the ITA 1967 and applicable LHDN public rulings and guidelines — or consult with a licensed tax agent.</p>
+  </div>
+
+</div>
+
+<div class="bottom-bar">
+  <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+  <div class="slide-count" id="slideCount">1 / 28</div>
+  <div class="nav-hint">← → or click</div>
+</div>
+
+<script>
+  const deck = document.getElementById('deck');
+  const slides = deck.querySelectorAll('.slide');
+  const progress = document.getElementById('progress');
+  const slideCount = document.getElementById('slideCount');
+  const total = slides.length;
+  let current = 0;
+  function goTo(n) {
+    if (n < 0 || n >= total || n === current) return;
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    const prev = current;
+    current = n;
+    slides[current].classList.add('active');
+    setTimeout(() => slides[prev].classList.remove('exit'), 500);
+    progress.style.width = ((current + 1) / total * 100) + '%';
+    slideCount.textContent = (current + 1) + ' / ' + total;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+  });
+  deck.addEventListener('click', e => {
+    (e.clientX / window.innerWidth > 0.5) ? goTo(current + 1) : goTo(current - 1);
+  });
+  let touchStartX = 0;
+  deck.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  deck.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) { dx < 0 ? goTo(current + 1) : goTo(current - 1); }
+  });
+  progress.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>
