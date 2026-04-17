@@ -42,4 +42,4 @@ Active development. Used to present tax information sessions at Network School.
 
 ## Presentation
 
-[Malaysian International Tax for Long-Termers](https://luma.com/kiznfptm) - April 2026, Network School
+[Filing Tax in Malaysia](https://electrafrost.github.io/malaysia-tax-guide/) - April 2026, Network School
