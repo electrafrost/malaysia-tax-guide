@@ -29,7 +29,9 @@ A tax residency determination schema is in development that walks individuals th
 
 ## Why this exists
 
-Most digital nomads in Malaysia are unaware of their filing obligations. The 183-day test and foreign income exemption may give false reassurance. This guide frames tax around what LHDN actually expects, which is the safer starting point.
+Digital nomads in Malaysia appear mostly unaware of their tax filing obligations, and that tax residency and immigration status are determined independently but a problem with one can affect the other. The 183-day test and foreign income exemption may give false reassurance. 
+
+This guide frames tax around what Malaysia's Income Tax Act and the LHDN actually expects from foreign visitors, which is the safer starting point.
 
 ## Author
 
