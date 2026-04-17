@@ -6,7 +6,7 @@ Guidance on Malaysian tax for long-term visitors, digital nomads, remote workers
 
 Malaysian tax residency is determined under s.7 of the Income Tax Act 1967, not by the commonly cited 183-day rule alone. There are four tests, and the interaction between residency status, income source, treaty relief and LHDN filing expectations is more complex than most summaries suggest.
 
-This guide is written from practitioner experience working with internationally mobile individuals at Network School, Forest City, Malaysia.
+This guide is written from practitioner experience amongst internationally mobile individuals at Network School, Forest City, Malaysia.
 
 ## Contents
 
