@@ -23,6 +23,10 @@ Earlier sessions were presented in October to November 2025 to introduce the Wik
 - Strategic considerations, risk mitigation
 - Navigating MyTax Portal
 
+## Tool
+
+A tax residency determination schema is in development that walks individuals through the s.7 ITA 1967 tests using their own travel and income data. The tool runs locally and privately. No personal information is submitted to any server or shared with any third party. Will be used in future workshop sessions and is being developed toward an AI-assisted compliance system.
+
 ## Why this exists
 
 Most digital nomads in Malaysia are unaware of their filing obligations. The 183-day test and foreign income exemption may give false reassurance. This guide frames tax around what LHDN actually expects, which is the safer starting point.
@@ -34,4 +38,8 @@ Deputy President, Institute of Public Accountants Malaysia Member Advisory Commi
 
 ## Status
 
-Active development. Used as the basis for tax information sessions at Network School.
+Active development. Used to present tax information sessions at Network School.
+
+## Presentation
+
+[Malaysian International Tax for Long-Termers](https://luma.com/kiznfptm) - April 2026, Network School
