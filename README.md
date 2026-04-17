@@ -2,11 +2,15 @@
 
 Guidance on Malaysian tax for long-term visitors, digital nomads, remote workers and global founders. Presented at Network School in April 2026 https://luma.com/kiznfptm
 
+## Background
+
+Network School is home to a globally mobile community of remote workers, founders and technologists, many of whom have been in Malaysia for extended periods without clarity on their tax position. I have been providing educational tax guidance to this community since arriving at Network School in September 2024, starting with a Malaysia Tax Wiki that was researched and distributed to members to establish a basis of understanding.
+
 ## What this covers
 
 Malaysian tax residency is determined under s.7 of the Income Tax Act 1967, not by the commonly cited 183-day rule alone. There are four tests, and the interaction between residency status, income source, treaty relief and LHDN filing expectations is more complex than most summaries suggest.
 
-This guide is written from practitioner experience amongst internationally mobile individuals at Network School, Forest City, Malaysia. Earlier sessions were presented in October to November 2025 and a Malaysia Tax Wiki was shared with the community to establish the basis of understanding.
+Earlier sessions were presented in October to November 2025 to introduce the Wiki and address common questions. The current sessions in April 2026 go deeper into residency determination, filing practicalities and strategic considerations. The Wiki will be updated and published in this repository.
 
 ## Contents
 
