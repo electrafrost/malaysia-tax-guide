@@ -1,4 +1,4 @@
-# Malaysia Tax Guide
+# Malaysia Tax Guide Presentation - April 2026, Network School
 
 Guidance on Malaysian tax for long-term visitors, digital nomads, remote workers and global founders. Presented at Network School in April 2026 https://luma.com/kiznfptm
 
